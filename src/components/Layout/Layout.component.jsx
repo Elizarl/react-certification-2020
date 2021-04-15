@@ -1,9 +1,18 @@
 import React from 'react';
+import styled from 'styled-components';
+import Header from '../Header';
 
-import './Layout.styles.css';
+const Container = styled.div`
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+`;
 
-function Layout({ children }) {
-  return <main className="container">{children}</main>;
-}
+const Layout = ({ children }) => (
+  <Container>
+    <Header />
+    <main>{children}</main>
+  </Container>
+);
 
 export default Layout;

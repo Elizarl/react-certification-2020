@@ -1,38 +1,47 @@
-import React, { useRef } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import Layout from '../../components/Layout';
+import VideoCard from '../../components/VideoCard';
+import { useSearch } from '../../providers/SearchContext';
 
-import { useAuth } from '../../providers/Auth';
-import './Home.styles.css';
+const CardsContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`;
+
+const YOUTUBE_API = 'https://www.googleapis.com/youtube/v3/search';
 
 function HomePage() {
-  const history = useHistory();
-  const sectionRef = useRef(null);
-  const { authenticated, logout } = useAuth();
-
-  function deAuthenticate(event) {
-    event.preventDefault();
-    logout();
-    history.push('/');
-  }
+  const { query } = useSearch();
+  const [youtubeVideos, setYoutubeVideos] = useState(null);
+  useEffect(() => {
+    async function getServerSideProps() {
+      const res = await fetch(
+        `${YOUTUBE_API}?part=snippet&q=${query}&maxResults=25&key=${process.env.REACT_APP_YOUTUBE_API_KEY}&type=video`
+      );
+      const data = await res.json();
+      setYoutubeVideos(data);
+    }
+    getServerSideProps();
+  }, [query]);
 
   return (
-    <section className="homepage" ref={sectionRef}>
-      <h1>Hello stranger!</h1>
-      {authenticated ? (
-        <>
-          <h2>Good to have you back</h2>
-          <span>
-            <Link to="/" onClick={deAuthenticate}>
-              ← logout
-            </Link>
-            <span className="separator" />
-            <Link to="/secret">show me something cool →</Link>
-          </span>
-        </>
-      ) : (
-        <Link to="/login">let me in →</Link>
-      )}
-    </section>
+    <Layout>
+      <section>
+        <CardsContainer>
+          {youtubeVideos !== null &&
+            youtubeVideos.items.map((ytvideo) => (
+              <VideoCard
+                key={ytvideo.id.videoId}
+                id={ytvideo.id.videoId}
+                title={ytvideo.snippet.title}
+                description={ytvideo.snippet.description}
+                thumbnail={ytvideo.snippet.thumbnails.default.url}
+              />
+            ))}
+        </CardsContainer>
+      </section>
+    </Layout>
   );
 }
 
