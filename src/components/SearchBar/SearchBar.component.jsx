@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useSearch } from '../../providers/SearchContext';
+import { useGlobal } from '../../providers/GlobalContext';
 
 const SearchbarContainer = styled.div`
   padding: 0 2rem;
@@ -22,7 +22,7 @@ const InputSearchbar = styled.input`
 `;
 
 const SearchBar = () => {
-  const { query, setQuery } = useSearch();
+  const { query, setQuery } = useGlobal();
 
   return (
     <SearchbarContainer>

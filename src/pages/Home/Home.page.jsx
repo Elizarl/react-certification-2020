@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Layout from '../../components/Layout';
 import VideoCard from '../../components/VideoCard';
-import { useSearch } from '../../providers/SearchContext';
+import { useGlobal } from '../../providers/GlobalContext';
 
 const CardsContainer = styled.div`
   display: flex;
@@ -12,7 +12,7 @@ const CardsContainer = styled.div`
 const YOUTUBE_API = 'https://www.googleapis.com/youtube/v3/search';
 
 function HomePage() {
-  const { query } = useSearch();
+  const { query } = useGlobal();
   const [youtubeVideos, setYoutubeVideos] = useState(null);
   useEffect(() => {
     async function getServerSideProps() {

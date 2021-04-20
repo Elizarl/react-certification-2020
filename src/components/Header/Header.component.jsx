@@ -8,7 +8,7 @@ import ThemeSwitch from '../ThemeSwitch/ThemeSwitch.component';
 const HeaderClass = styled.header`
   display: flex;
   width: 100%;
-  background-color: royalblue;
+  background-color: ${(props) => props.theme.headerBackground};
   padding: 1rem 2rem;
   justify-content: space-between;
   align-items: center;
