@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import 'material-icons';
 import Switch from '@material-ui/core/Switch';
-import { useGlobal } from '../../providers/GlobalContext';
+import { useGlobal } from '../../providers/GlobalContext/GlobalContext';
 
 const ThemeSwitchContainer = styled.div`
   display: flex;

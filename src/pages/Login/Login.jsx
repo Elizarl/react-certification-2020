@@ -1,18 +1,18 @@
 import React from 'react';
 import { useHistory } from 'react-router';
 
-import { useAuth } from '../../providers/Auth';
+import { useAuth } from '../../providers/Auth/Auth';
 import './Login.styles.css';
 
-function LoginPage() {
+const LoginPage = () => {
   const { login } = useAuth();
   const history = useHistory();
 
-  function authenticate(event) {
+  const authenticate = (event) => {
     event.preventDefault();
     login();
-    history.push('/secret');
-  }
+    history.push('/');
+  };
 
   return (
     <section className="login">
@@ -34,6 +34,6 @@ function LoginPage() {
       </form>
     </section>
   );
-}
+};
 
 export default LoginPage;

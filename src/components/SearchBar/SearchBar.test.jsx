@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import SearchBar from '../../components/SearchBar';
+import SearchBar from './SearchBar';
 
 test('renders a message', () => {
   const { getByText } = render(<SearchBar />);

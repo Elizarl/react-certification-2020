@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Layout from '../../components/Layout';
-import VideoCard from '../../components/VideoCard';
-import { useGlobal } from '../../providers/GlobalContext';
+import Layout from '../../components/Layout/Layout';
+import VideoCard from '../../components/VideoCard/VideoCard';
+import { useGlobal } from '../../providers/GlobalContext/GlobalContext';
 
-const CardsContainer = styled.div`
+const StyledCardsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
 `;
 
 const YOUTUBE_API = 'https://www.googleapis.com/youtube/v3/search';
 
-function HomePage() {
+const HomePage = () => {
   const { query } = useGlobal();
   const [youtubeVideos, setYoutubeVideos] = useState(null);
   useEffect(() => {
@@ -28,7 +28,7 @@ function HomePage() {
   return (
     <Layout>
       <section>
-        <CardsContainer>
+        <StyledCardsContainer>
           {youtubeVideos !== null &&
             youtubeVideos.items.map((ytvideo) => (
               <VideoCard
@@ -39,10 +39,10 @@ function HomePage() {
                 thumbnail={ytvideo.snippet.thumbnails.default.url}
               />
             ))}
-        </CardsContainer>
+        </StyledCardsContainer>
       </section>
     </Layout>
   );
-}
+};
 
 export default HomePage;
