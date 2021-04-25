@@ -13,9 +13,13 @@ const useGlobal = () => {
 const GlobalProvider = ({ children }) => {
   const [query, setQuery] = useState('pokemon');
   const [theme, setTheme] = useState(false);
+  const [user, setUser] = useState(null);
+  const [pass, setPass] = useState(null);
 
   return (
-    <GlobalContext.Provider value={{ query, setQuery, theme, setTheme }}>
+    <GlobalContext.Provider
+      value={{ query, setQuery, theme, setTheme, user, setUser, pass, setPass }}
+    >
       {children}
     </GlobalContext.Provider>
   );
