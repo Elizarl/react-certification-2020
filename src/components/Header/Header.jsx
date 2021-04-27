@@ -5,7 +5,7 @@ import Avatar from '@material-ui/core/Avatar';
 import { Button } from '@material-ui/core';
 import Dialog from '@material-ui/core/Dialog';
 // import { AUTH_STORAGE_KEY } from '../../utils/constants';
-// import { useAuth } from '../../providers/Auth/Auth';
+import { useAuth } from '../../providers/Auth/Auth';
 import SearchBar from '../SearchBar/SearchBar';
 import ThemeSwitch from '../ThemeSwitch/ThemeSwitch';
 // import { storage } from '../../utils/storage';
@@ -32,15 +32,18 @@ const StyledDialog = styled(Dialog)`
 
 const Header = () => {
   const { query, setQuery } = useGlobal();
-  const [openButton, setOpenButton] = useState(false);
-  const [openCredential, setOpenCredential] = useState(false);
+  const [showDialog, setShowDialog] = useState(false);
+  const [showCredential, setShowCredential] = useState(false);
+  const { authenticated } = useAuth();
 
   const handleOpenButton = () => {
-    setOpenButton(true);
+    setShowDialog(true);
   };
-  const handleOpenCredential = () => {
-    setOpenCredential(true);
-    setOpenButton(false);
+  const handleLogin = () => {
+    setShowCredential(true);
+  };
+  const handleLogout = () => {
+    // setShowCredential(true);
   };
   return (
     <>
@@ -54,10 +57,14 @@ const Header = () => {
           <Avatar onClick={handleOpenButton} />
         </StyledHeaderSection>
       </StyledHeader>
-      <StyledDialog open={openButton} aria-labelledby="form-dialog-title">
-        <Button onClick={handleOpenCredential}>Login</Button>
+      <StyledDialog open={showDialog} aria-labelledby="form-dialog-title">
+        {authenticated ? (
+          <Button onClick={handleLogout}>Logout</Button>
+        ) : (
+          <Button onClick={handleLogin}>Login</Button>
+        )}
       </StyledDialog>
-      <Login openCredential={openCredential} setOpenCredential={setOpenCredential} />
+      <Login showCredential={showCredential} setShowCredential={setShowCredential} />
     </>
   );
 };
