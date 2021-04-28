@@ -36,12 +36,10 @@ const YtVideoDescription = ({ id, ytVideoDetails }) => {
         />
       </StyledVideoContainer>
       <StyledVideoDescription>
-        {/* {ytVideoDetails !== null && ( */}
         <>
           <h1>{ytVideoDetails.items[0].snippet.title}</h1>
           <div>{ytVideoDetails.items[0].snippet.description}</div>
         </>
-        {/* )} */}
       </StyledVideoDescription>
     </div>
   );

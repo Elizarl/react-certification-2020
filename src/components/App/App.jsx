@@ -7,7 +7,6 @@ import HomePage from '../../pages/Home';
 import Private from '../Private/Private';
 import VideoDetail from '../../pages/VideoDetail';
 import Theme from '../../providers/Theme/Theme';
-import Favorites from '../../pages/Favorites';
 
 const App = () => {
   return (
@@ -22,9 +21,7 @@ const App = () => {
               <Route path="/video/:id">
                 <VideoDetail />
               </Route>
-              <Private exact path="/favorites">
-                <Favorites />
-              </Private>
+              <Private exact path="/favorites" />
               <Route path="*" />
             </Switch>
           </Theme>

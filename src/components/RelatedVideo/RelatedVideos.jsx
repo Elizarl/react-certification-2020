@@ -5,16 +5,18 @@ import styled from 'styled-components';
 
 const RelatedVideo = styled(Link)`
   display: grid;
-  grid-template-columns: 1fr 4fr;
+  grid-template-columns 2fr 8fr;
   color: black;
   padding-left: 5px;
-  padding-top: 5px;
+  padding-top: 10px;
+  border-bottom-color:
 `;
 
-const RelatedVideos = ({ ytrelatedvideo }) => {
+const RelatedVideos = ({ ytrelatedvideo, key }) => {
   return (
     <RelatedVideo
-      key={ytrelatedvideo.id.videoId}
+      key={key}
+      id={ytrelatedvideo.id.videoId}
       to={`/video/${ytrelatedvideo.id.videoId}`}
     >
       <img alt="" src={ytrelatedvideo.snippet.thumbnails.default.url} />

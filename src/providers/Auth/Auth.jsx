@@ -14,7 +14,8 @@ const useAuth = () => {
 };
 
 const AuthProvider = ({ children }) => {
-  const [authenticated, setAuthenticated] = useState(true);
+  const [authenticated, setAuthenticated] = useState(false);
+  storage.get(AUTH_STORAGE_KEY);
 
   useEffect(() => {
     const lastAuthState = storage.get(AUTH_STORAGE_KEY);

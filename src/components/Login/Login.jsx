@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router';
+import Alert from '@material-ui/lab/Alert';
 import { Button } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -12,36 +13,26 @@ import { useGlobal } from '../../providers/GlobalContext/GlobalContext';
 
 const LoginDialog = ({ showCredential, setShowCredential }) => {
   const { login } = useAuth();
+
   const history = useHistory();
   const { user, setUser } = useGlobal();
   const { pass, setPass } = useGlobal();
-
-  // const mockedUser = {
-  //   id: '123',
-  //   name: 'Wizeline',
-  //   avatarUrl:
-  //     'https://media.glassdoor.com/sqll/868055/wizeline-squarelogo-1473976610815.png',
-  // };
+  const [errorMessage, setErrorMessage] = useState(false);
 
   async function loginApi() {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       setTimeout(() => {
         if (user === 'wizeline' && pass === 'Rocks!') {
           login();
           setShowCredential(false);
-          return resolve(history.push('/favorites'));
+          return resolve(history.push('/'));
         }
-        return reject(new Error(':c'));
+        setErrorMessage(true);
+        // TODO mejorar el reject
+        return resolve();
       }, 500);
     });
   }
-
-  // const authenticate = (event) => {
-  //   event.preventDefault();
-  //   login();
-  //   // history.push('/favorites');
-  //   setShowCredential(false);
-  // };
 
   const handleClose = () => {
     setShowCredential(false);
@@ -55,6 +46,11 @@ const LoginDialog = ({ showCredential, setShowCredential }) => {
     >
       <DialogTitle id="form-dialog-title">Login</DialogTitle>
       <DialogContent>
+        {errorMessage === true ? (
+          <Alert severity="error">Username or password invalid</Alert>
+        ) : (
+          ''
+        )}
         <TextField
           autoFocus
           margin="dense"

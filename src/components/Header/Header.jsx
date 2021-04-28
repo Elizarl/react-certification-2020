@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import 'material-icons';
 import styled from 'styled-components';
 import Avatar from '@material-ui/core/Avatar';
-import { Button } from '@material-ui/core';
-import Dialog from '@material-ui/core/Dialog';
-// import { AUTH_STORAGE_KEY } from '../../utils/constants';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+
 import { useAuth } from '../../providers/Auth/Auth';
 import SearchBar from '../SearchBar/SearchBar';
 import ThemeSwitch from '../ThemeSwitch/ThemeSwitch';
-// import { storage } from '../../utils/storage';
 import { useGlobal } from '../../providers/GlobalContext/GlobalContext';
 import Login from '../Login/Login';
+import MenuComponent from '../Menu/Menu';
 
 const StyledHeader = styled.header`
   display: flex;
@@ -24,47 +24,81 @@ const StyledHeaderSection = styled.header`
   display: flex;
 `;
 
-const StyledDialog = styled(Dialog)`
-  display: flex;
-  align-items: flex-end;
-  flex-direction: row-reverse;
-`;
-
 const Header = () => {
-  const { query, setQuery } = useGlobal();
-  const [showDialog, setShowDialog] = useState(false);
+  const { query, setQuery, setTheme, theme } = useGlobal();
+  const [anchorEl, setAnchorEl] = useState(null);
   const [showCredential, setShowCredential] = useState(false);
-  const { authenticated } = useAuth();
+  const { authenticated, logout } = useAuth();
 
-  const handleOpenButton = () => {
-    setShowDialog(true);
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleOpenButton = (event) => {
+    setAnchorEl(event.currentTarget);
   };
   const handleLogin = () => {
     setShowCredential(true);
+    setAnchorEl(null);
   };
   const handleLogout = () => {
-    // setShowCredential(true);
+    setAnchorEl(null);
+    logout();
   };
   return (
     <>
       <StyledHeader>
         <StyledHeaderSection>
-          <span className="material-icons-outlined">menu</span>
+          <MenuComponent />
           <SearchBar value={query} onChange={(e) => setQuery(e.target.value)} />
         </StyledHeaderSection>
         <StyledHeaderSection>
-          <ThemeSwitch />
-          <Avatar onClick={handleOpenButton} />
+          <ThemeSwitch checked={theme} onChange={(e) => setTheme(e.target.checked)} />
+          {authenticated ? (
+            <>
+              <Avatar
+                aria-controls="simple-menu"
+                aria-haspopup="true"
+                alt="Logged"
+                src="https://media.glassdoor.com/sqll/868055/wizeline-squarelogo-1473976610815.png"
+                onClick={handleOpenButton}
+              />
+              <Menu
+                id="simple-menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+              </Menu>
+            </>
+          ) : (
+            <>
+              <Avatar
+                aria-controls="simple-menu"
+                aria-haspopup="true"
+                alt="Logout"
+                onClick={handleOpenButton}
+              />
+              <Menu
+                id="simple-menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={handleLogin}>Login</MenuItem>
+              </Menu>
+            </>
+          )}
         </StyledHeaderSection>
       </StyledHeader>
-      <StyledDialog open={showDialog} aria-labelledby="form-dialog-title">
-        {authenticated ? (
-          <Button onClick={handleLogout}>Logout</Button>
-        ) : (
-          <Button onClick={handleLogin}>Login</Button>
-        )}
-      </StyledDialog>
-      <Login showCredential={showCredential} setShowCredential={setShowCredential} />
+      <Login
+        showCredential={showCredential}
+        setShowCredential={setShowCredential}
+        checked={theme}
+      />
     </>
   );
 };

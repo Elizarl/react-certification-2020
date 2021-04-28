@@ -60,7 +60,11 @@ function VideoDetail() {
               // sometimes api returns video without snippet
               .filter(({ snippet }) => snippet)
               .map((ytrelatedvideo) => (
-                <StyledRelatedVideos id={id} ytrelatedvideo={ytrelatedvideo} />
+                <StyledRelatedVideos
+                  id={id}
+                  ytrelatedvideo={ytrelatedvideo}
+                  key={ytrelatedvideo.id.videoId}
+                />
               ))}
         </div>
       </DetailsGrid>
