@@ -38,7 +38,7 @@ const StyledDescription = styled.div`
 const YtVideoDescription = ({ id, ytVideoDetails }) => {
   const { authenticated } = useAuth();
   const { hiw, setHiw } = useGlobal();
-  const buttonFavorites = () => {
+  const ButtonFavorites = () => {
     if (authenticated) {
       if (hiw) {
         return (
@@ -76,7 +76,7 @@ const YtVideoDescription = ({ id, ytVideoDetails }) => {
         <>
           <StyledTitle>
             <h1>{ytVideoDetails.items[0].snippet.title}</h1>
-            <buttonFavorites />
+            <ButtonFavorites />
           </StyledTitle>
           <StyledDescription>
             {ytVideoDetails.items[0].snippet.description}
