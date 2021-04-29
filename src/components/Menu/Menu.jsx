@@ -3,10 +3,12 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuIcon from '@material-ui/icons/Menu';
 import { useAuth } from '../../providers/Auth/Auth';
+import { useHistory } from 'react-router-dom';
 
 const MenuComponent = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const { authenticated } = useAuth();
+  const history = useHistory();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -14,6 +16,12 @@ const MenuComponent = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+  const navigateHome = () => {
+    history.push('/');
+  };
+  const navigateFavorites = () => {
+    history.push('/favorites');
   };
   return (
     <div>
@@ -27,11 +35,11 @@ const MenuComponent = () => {
       >
         {authenticated ? (
           <div>
-            <MenuItem onClick={handleClose}>Home</MenuItem>
-            <MenuItem onClick={handleClose}>Favorites</MenuItem>
+            <MenuItem onClick={navigateHome}>Home</MenuItem>
+            <MenuItem onClick={navigateFavorites}>Favorites</MenuItem>
           </div>
         ) : (
-          <MenuItem onClick={handleClose}>Home</MenuItem>
+          <MenuItem onClick={navigateHome}>Home</MenuItem>
         )}
       </Menu>
     </div>

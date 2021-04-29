@@ -1,46 +1,40 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
+
+import Alert from '@material-ui/lab/Alert';
 import Layout from '../../components/Layout/Layout';
 import VideoCard from '../../components/VideoCard/VideoCard';
-import { useGlobal } from '../../providers/GlobalContext/GlobalContext';
+import { useFavorites } from '../../providers/Favorites/Favorites';
 
 const StyledCardsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
 `;
-
-const YOUTUBE_API = 'https://www.googleapis.com/youtube/v3/search';
+const StyledAlert = styled.div`
+  padding-top: 10px;
+`;
 
 const Favorites = () => {
-  const { query } = useGlobal();
-  const [youtubeVideos, setYoutubeVideos] = useState(null);
-  useEffect(() => {
-    async function getServerSideProps() {
-      const res = await fetch(
-        `${YOUTUBE_API}?part=snippet&q=${query}&maxResults=25&key=${process.env.REACT_APP_YOUTUBE_API_KEY}&type=video`
-      );
-      const data = await res.json();
-      setYoutubeVideos(data);
-    }
-    getServerSideProps();
-  }, [query]);
-
+  const { favorites } = useFavorites();
   return (
     <Layout>
-      <section>
-        <StyledCardsContainer>
-          {youtubeVideos !== null &&
-            youtubeVideos.items.map((ytvideo) => (
-              <VideoCard
-                key={ytvideo.id.videoId}
-                id={ytvideo.id.videoId}
-                title={ytvideo.snippet.title}
-                description={ytvideo.snippet.description}
-                thumbnail={ytvideo.snippet.thumbnails.default.url}
-              />
-            ))}
-        </StyledCardsContainer>
-      </section>
+      <StyledCardsContainer>
+        {favorites.length > 0 ? (
+          favorites.map((item) => (
+            <VideoCard
+              key={item.id}
+              id={item.id}
+              thumbnail={item.thumbnail}
+              title={item.title}
+              description={item.description}
+            />
+          ))
+        ) : (
+          <StyledAlert>
+            <Alert severity="error">You do not have any favourite video yet </Alert>
+          </StyledAlert>
+        )}
+      </StyledCardsContainer>
     </Layout>
   );
 };

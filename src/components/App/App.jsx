@@ -8,25 +8,33 @@ import HomePage from '../../pages/Home';
 import Private from '../Private/Private';
 import Favorites from '../../pages/Favorites/Favorites';
 import VideoDetail from '../../pages/VideoDetail';
+import FavoritesProvider from '../../providers/Favorites/Favorites';
+import NotFound from '../../pages/NotFound/NotFound';
 
 const App = () => {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <GlobalProvider>
-          <Theme>
-            <Switch>
-              <Route exact path="/">
-                <HomePage />
-              </Route>
-              <Route path="/video/:id">
-                <VideoDetail />
-              </Route>
-              <Private component={Favorites} exact path="/favorites" />
-              <Route path="*" />
-            </Switch>
-          </Theme>
-        </GlobalProvider>
+        <FavoritesProvider>
+          <GlobalProvider>
+            <Theme>
+              <Switch>
+                <Route exact path="/">
+                  <HomePage />
+                </Route>
+                <Route path="/video/:id">
+                  <VideoDetail />
+                </Route>
+                <Private exact path="/favorites">
+                  <Favorites></Favorites>
+                </Private>
+                <Route path="*">
+                  <NotFound />
+                </Route>
+              </Switch>
+            </Theme>
+          </GlobalProvider>
+        </FavoritesProvider>
       </AuthProvider>
     </BrowserRouter>
   );

@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 import { Button } from '@material-ui/core';
 
 import { useAuth } from '../../providers/Auth/Auth';
-import { useGlobal } from '../../providers/GlobalContext/GlobalContext';
+import { useFavorites } from '../../providers/Favorites/Favorites';
 
 const StyledVideoContainer = styled.div`
   position: relative;
@@ -37,28 +37,40 @@ const StyledDescription = styled.div`
 
 const YtVideoDescription = ({ id, ytVideoDetails }) => {
   const { authenticated } = useAuth();
-  const { hiw, setHiw } = useGlobal();
-  const ButtonFavorites = () => {
-    if (authenticated) {
-      if (hiw) {
-        return (
-          <Button value={hiw} onClick={() => setHiw(false)}>
-            ADD FAVORITES
-          </Button>
-        );
-      }
-      return (
-        <Button value={hiw} onClick={() => setHiw(true)}>
-          REMOVE FAVORITES
-        </Button>
-      );
-    }
-  };
+  const { favorites, addFavorite, removeFavorite } = useFavorites();
+  const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
-    setHiw(hiw);
-    console.log('render');
-  }, [hiw, setHiw]);
+    setIsFavorite(favorites.findIndex((favorite) => favorite.id === id) !== -1);
+  }, [favorites, id]);
+
+  const ButtonFavorites = ({ thumbnail, title, description }) => {
+    const handleOnClick = () => {
+      if (isFavorite) {
+        removeFavorite(id);
+      } else {
+        addFavorite({
+          id,
+          thumbnail,
+          title,
+          description,
+        });
+      }
+    };
+
+    return (
+      <>
+        {authenticated ? (
+          <Button onClick={handleOnClick} isFavorite={isFavorite}>
+            {isFavorite ? 'Remove from' : 'Add to'} favorites
+          </Button>
+        ) : (
+          <></>
+        )}
+      </>
+    );
+  };
+
   return (
     <div>
       <StyledVideoContainer>
@@ -76,7 +88,11 @@ const YtVideoDescription = ({ id, ytVideoDetails }) => {
         <>
           <StyledTitle>
             <h1>{ytVideoDetails.items[0].snippet.title}</h1>
-            <ButtonFavorites />
+            <ButtonFavorites
+              title={ytVideoDetails.items[0].snippet.title}
+              description={ytVideoDetails.items[0].snippet.description}
+              thumbnail={ytVideoDetails.items[0].snippet.thumbnails.default.url}
+            />
           </StyledTitle>
           <StyledDescription>
             {ytVideoDetails.items[0].snippet.description}
