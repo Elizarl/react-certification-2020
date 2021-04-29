@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router';
 import Alert from '@material-ui/lab/Alert';
 import { Button } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
@@ -14,7 +13,6 @@ import { useGlobal } from '../../providers/GlobalContext/GlobalContext';
 const LoginDialog = ({ showCredential, setShowCredential }) => {
   const { login } = useAuth();
 
-  const history = useHistory();
   const { user, setUser } = useGlobal();
   const { pass, setPass } = useGlobal();
   const [errorMessage, setErrorMessage] = useState(false);
@@ -25,10 +23,9 @@ const LoginDialog = ({ showCredential, setShowCredential }) => {
         if (user === 'wizeline' && pass === 'Rocks!') {
           login();
           setShowCredential(false);
-          return resolve(history.push('/'));
+          return resolve();
         }
         setErrorMessage(true);
-        // TODO mejorar el reject
         return resolve();
       }, 500);
     });

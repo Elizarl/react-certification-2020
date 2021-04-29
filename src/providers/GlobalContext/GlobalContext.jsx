@@ -15,10 +15,22 @@ const GlobalProvider = ({ children }) => {
   const [theme, setTheme] = useState(false);
   const [user, setUser] = useState('');
   const [pass, setPass] = useState('');
+  const [hiw, setHiw] = useState(true);
 
   return (
     <GlobalContext.Provider
-      value={{ query, setQuery, theme, setTheme, user, setUser, pass, setPass }}
+      value={{
+        query,
+        setQuery,
+        theme,
+        setTheme,
+        user,
+        setUser,
+        pass,
+        setPass,
+        hiw,
+        setHiw,
+      }}
     >
       {children}
     </GlobalContext.Provider>

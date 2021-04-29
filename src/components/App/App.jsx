@@ -1,12 +1,13 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-import GlobalProvider from '../../providers/GlobalContext/GlobalContext';
 import AuthProvider from '../../providers/Auth/Auth';
+import GlobalProvider from '../../providers/GlobalContext/GlobalContext';
+import Theme from '../../providers/Theme/Theme';
 import HomePage from '../../pages/Home';
 import Private from '../Private/Private';
+import Favorites from '../../pages/Favorites/Favorites';
 import VideoDetail from '../../pages/VideoDetail';
-import Theme from '../../providers/Theme/Theme';
 
 const App = () => {
   return (
@@ -21,7 +22,7 @@ const App = () => {
               <Route path="/video/:id">
                 <VideoDetail />
               </Route>
-              <Private exact path="/favorites" />
+              <Private component={Favorites} exact path="/favorites" />
               <Route path="*" />
             </Switch>
           </Theme>

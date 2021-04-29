@@ -24,6 +24,7 @@ const DetailsGrid = styled.div`
 function VideoDetail() {
   const { id } = useParams();
   const [ytRelatedVideos, setYtRelatedVideos] = useState(null);
+  // const [addButton] = useState(false);
   useEffect(() => {
     async function getServerSideProps() {
       const res = await fetch(
