@@ -26,7 +26,7 @@ const App = () => {
                   <VideoDetail />
                 </Route>
                 <Private exact path="/favorites">
-                  <Favorites></Favorites>
+                  <Favorites />
                 </Private>
                 <Route path="*">
                   <NotFound />
