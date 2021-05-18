@@ -54,6 +54,7 @@ const LoginDialog = ({ showCredential, setShowCredential }) => {
           id="user"
           label="User"
           type=""
+          placeholder="wizeline"
           fullWidth
           onChange={(e) => setUser(e.target.value)}
           value={user}
@@ -64,6 +65,7 @@ const LoginDialog = ({ showCredential, setShowCredential }) => {
           id="password"
           label="Password"
           type="password"
+          placeholder="Rocks!"
           fullWidth
           onChange={(e) => setPass(e.target.value)}
           value={pass}
